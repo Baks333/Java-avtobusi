@@ -1,0 +1,83 @@
+driver | CREATE TABLE `driver` (
+`Id` int(11) NOT NULL AUTO_INCREMENT,
+`firstName` varchar(30) NOT NULL,
+`lastName` varchar(30) NOT NULL,
+`birthDate` varchar(10) NOT NULL,
+`address` varchar(255) NOT NULL,
+`phoneNumber` varchar(12) NOT NULL,
+`standing` int(11) NOT NULL,
+PRIMARY KEY (`Id`));
+
+
+ concert | CREATE TABLE `concert` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `title` varchar(100) NOT NULL,
+ `band` varchar(100) NOT NULL,
+ `location` varchar(100) NOT NULL,
+ `poster` varchar(255) NOT NULL,
+ `price` decimal(16,2) NOT NULL,
+ `details` varchar(255) NOT NULL,
+ `date` varchar(10) NOT NULL,
+ PRIMARY KEY (`id`));
+
+
+ tour  | CREATE TABLE `tour` (
+ `Id` int(11) NOT NULL AUTO_INCREMENT,
+ `licensePlate` varchar(17) NOT NULL,
+ `model` varchar(50) NOT NULL,
+ `type` varchar(20) NOT NULL,
+ `date` varchar(21) NOT NULL,
+ `price` decimal(16,2) NOT NULL,
+ `details` varchar(255) NOT NULL,
+ `concertID` int(11) NOT NULL,
+ PRIMARY KEY (`Id`),
+ KEY `concertID` (`concertID`),
+ CONSTRAINT `tour_ibfk_1` FOREIGN KEY (`concertID`) REFERENCES `concert` (`id`));
+
+
+ hotel | CREATE TABLE `hotel` (
+ `Id` int(11) NOT NULL AUTO_INCREMENT,
+ `title` varchar(100) NOT NULL,
+ `star` int(11) NOT NULL,
+ `rating` decimal(16,2) NOT NULL,
+ `hotelImg` varchar(255) NOT NULL,
+ `address` varchar(255) NOT NULL,
+ `phoneNumber` varchar(12) NOT NULL,
+ `details` varchar(255) NOT NULL,
+ `tourID` int(11) NOT NULL,
+ PRIMARY KEY (`Id`),
+ KEY `tourID` (`tourID`),
+ CONSTRAINT `hotel_ibfk_1` FOREIGN KEY (`tourID`) REFERENCES `tour` (`Id`));
+
+
+ room  | CREATE TABLE `room` (
+ `Id` int(11) NOT NULL AUTO_INCREMENT,
+ `capacity` int(11) NOT NULL,
+ `price` decimal(16,2) NOT NULL,
+ `roomImg` varchar(255) NOT NULL,
+ `facilities` varchar(255) NOT NULL,
+ `hotelID` int(11) NOT NULL,
+ PRIMARY KEY (`Id`),
+ KEY `hotelID` (`hotelID`),
+ CONSTRAINT `room_ibfk_1` FOREIGN KEY (`hotelID`) REFERENCES `hotel` (`Id`));
+
+ feedback | CREATE TABLE `feedback` (
+ `Id` int(11) NOT NULL AUTO_INCREMENT,
+ `user` int(11) NOT NULL,
+ `date` varchar(10) NOT NULL,
+ `text` varchar(255) NOT NULL,
+ `hotelID` int(11) NOT NULL,
+ `rating` int(11) NOT NULL,
+ PRIMARY KEY (`Id`),
+ KEY `hotelID` (`hotelID`),
+ CONSTRAINT `feedback_ibfk_1` FOREIGN KEY (`hotelID`) REFERENCES `hotel` (`Id`));
+
+
+ user  | CREATE TABLE `user` (
+ `Id` int(11) NOT NULL AUTO_INCREMENT,
+ `login` varchar(30) NOT NULL,
+ `password` varchar(255) NOT NULL,
+ `role` varchar(20) NOT NULL,
+ `firstName` varchar(30) NOT NULL,
+ `lastName` varchar(30) NOT NULL,
+ PRIMARY KEY (`Id`));
